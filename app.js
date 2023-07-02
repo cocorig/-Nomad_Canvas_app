@@ -8,6 +8,7 @@ const destroyBtn = document.querySelector('#destroy-btn');
 const eraserBtn = document.querySelector('#eraser-btn');
 const CANVAS_WIDTH = 800;
 const CANVAS_HEIGHT = 800;
+const file = document.querySelector('#file');
 
 canvas.width = CANVAS_WIDTH;
 canvas.height = CANVAS_HEIGHT;
@@ -82,10 +83,10 @@ function startPainting(){
     ispainting = true;
 
 }
-//cavas를 색으로 채우는 함수
+//cavas를 색으로 채우는 함수,click은 mousedown + mouseup
 function onCanvasClick(){
     if(isFilling){
-        ctx.fillRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT)
+        ctx.fillRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT)//현재 선택된 색으로 그림
        
     }
 }
@@ -101,6 +102,19 @@ function onEraserClick(){
     modeBtn.innerText = 'Draw';
 
 }
+//file change
+function onFileChange(e){
+    const file = e.target.files[0];
+    const url = URL.createObjectURL(file); //브라우저의 메모리에서 내가 선택한 file의 URL을 얻어옴
+    const image = new Image();
+    image.src =  url;
+    image.onload = function(){
+        ctx.drawImage(image, 0,0, CANVAS_WIDTH, CANVAS_HEIGHT)
+        file.value = null; //새로운 이미지를 추가할 수있다.
+    }
+}
+
+
 canvas.addEventListener('mousemove', onMove)
 canvas.addEventListener('mousedown', startPainting)
 canvas.addEventListener('mouseup', cancelPainting)
@@ -112,3 +126,4 @@ color.addEventListener('change',onColorChange);
 modeBtn.addEventListener('click',onModeClick);
 destroyBtn.addEventListener('click',onDestroyClick);
 eraserBtn.addEventListener('click',onEraserClick);
+file.addEventListener('change',onFileChange);
