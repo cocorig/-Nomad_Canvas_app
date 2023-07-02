@@ -3,10 +3,16 @@ const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 const lineWidth = document.querySelector('#line-width');
 const color = document.querySelector('#color');
+const modeBtn = document.querySelector('#mode-btn');
+const destroyBtn = document.querySelector('#destroy-btn');
+const eraserBtn = document.querySelector('#eraser-btn');
+const CANVAS_WIDTH = 800;
+const CANVAS_HEIGHT = 800;
 
-canvas.width = 800;
-canvas.height = 800;
+canvas.width = CANVAS_WIDTH;
+canvas.height = CANVAS_HEIGHT;
 let ispainting = false;
+let isFilling = false;
 ctx.lineWidth =lineWidth.value;
 
 //strokeStyle 와 fillStyle를 한번에 바꿔주는 함수
@@ -29,13 +35,26 @@ function onColorChange(e){
 
 
 
-
 //lineWidth가 바뀔때
 function onLineWidthChange(e){
 
  ctx.lineWidth =e.target.value
 }
 
+//선을 그릴지, canvas를 채울지 모드 변경
+function onModeClick(){
+    if(!isFilling){
+       
+       modeBtn.innerText = 'fill';
+       isFilling = true;
+       console.log(isFilling)
+    }else{
+        
+       modeBtn.innerText = 'Draw';
+       isFilling = false;
+       console.log(isFilling)
+    }
+}
 
 // 마우스가 움직일때
 function onMove(e){
@@ -63,46 +82,33 @@ function startPainting(){
     ispainting = true;
 
 }
+//cavas를 색으로 채우는 함수
+function onCanvasClick(){
+    if(isFilling){
+        ctx.fillRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT)
+       
+    }
+}
+//리셋 버튼
+function onDestroyClick(){
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT);
+}
+//지우개 버튼
+function onEraserClick(){
+    ctx.strokeStyle = 'white';
+    isFilling = false;
+    modeBtn.innerText = 'Draw';
+
+}
 canvas.addEventListener('mousemove', onMove)
 canvas.addEventListener('mousedown', startPainting)
 canvas.addEventListener('mouseup', cancelPainting)
-canvas.addEventListener('mouseleave', cancelPainting) //
+canvas.addEventListener('mouseleave', cancelPainting) 
+canvas.addEventListener('click',onCanvasClick)
 
-//moveTo는 선을 긋지 않으면서 브러쉬를 움직이게 해줌,유저가 마우스를 움직 일 때마다 호출,연필은 계속 움직여줘야 하기 때문
-//click하면 click한 곳에서부터 선을 그려야 함
-//
-
-lineWidth.addEventListener('change',onLineWidthChange)
-color.addEventListener('change',onColorChange)const canvas = document.querySelector('canvas');
-const ctx = canvas.getContext('2d'); // === paint brush
-
-//js한테도 canvas가 얼마나 큰지 알려줘야함 왜 css뿐 아니고 javascript에게 알려줘야야 하는 지?
-//canvas에서 이미지의 퀄리티를 높이기 위해서
-canvas.width = 800;
-canvas.height = 800;
-
-// ctx.fillRect(200,200,50,200)
-// ctx.fillRect(400,200,50,200)
-// ctx.lineWidth = 4;//선의 너비를 먼저 바꿔주고 storoke를 해야함.
-// ctx.strokeRect(300,300, 50,100)
-// ctx.fillRect(200,200,200,20)
-// ctx.moveTo(200,200);
-// ctx.lineTo(325,100);
-// ctx.lineTo(450,200);
-// ctx.fill();
-ctx.fillRect(200,200,15,100);
-ctx.fillRect(385,200,15,100);
-ctx.fillRect(250,200,100,150);
-
-
-ctx.arc(300, 150, 50, 0, 2 * Math.PI);
-//CanvasPath.arc(/x: 시작좌표 , y: 시작좌표, radius: 반지름, startAngle: number, endAngle: number, counterclockwise?: boolean | undefined): void
-//startAngle: 원의 시작부분
-//endAngle:원을 끝내는 angle, 2 * Math.PI가 돼야 완전한 원이 된다.
-ctx.fill();
-//만약 무언가의색을 바꿔주려고 하려면 우선 새로운 path가 필요한지 아닌지 생각
-ctx.beginPath();
-ctx.fillStyle =  'white';
-ctx.arc(330, 150, 5, 0, 2 * Math.PI);
-ctx.arc(270, 150, 5, 0, 2 * Math.PI);
-ctx.fill();
+lineWidth.addEventListener('change',onLineWidthChange);
+color.addEventListener('change',onColorChange);
+modeBtn.addEventListener('click',onModeClick);
+destroyBtn.addEventListener('click',onDestroyClick);
+eraserBtn.addEventListener('click',onEraserClick);
