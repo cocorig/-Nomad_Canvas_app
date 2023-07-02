@@ -9,13 +9,16 @@ const eraserBtn = document.querySelector('#eraser-btn');
 const CANVAS_WIDTH = 800;
 const CANVAS_HEIGHT = 800;
 const file = document.querySelector('#file');
+const inputText = document.querySelector('#text');
+const saveBtn = document.querySelector('#save-btn');
+
 
 canvas.width = CANVAS_WIDTH;
 canvas.height = CANVAS_HEIGHT;
 let ispainting = false;
 let isFilling = false;
 ctx.lineWidth =lineWidth.value;
-
+ctx.lineCap = 'round';// 선을 둥글게
 //strokeStyle 와 fillStyle를 한번에 바꿔주는 함수
 function colorChage(e){
     ctx.strokeStyle =  ctx.fillStyle = color.value= e;
@@ -113,13 +116,36 @@ function onFileChange(e){
         file.value = null; //새로운 이미지를 추가할 수있다.
     }
 }
+//더블클릭시 text나타남
+function onDoublClick(e){
+    
+    if(text !== ''){ //text가 비어있지 않는다면 실행
+        
+        ctx.save(); //ctx.save()는 현재 상태, 색상, 스타일등 모든 것을 저장한다.
+        ctx.lineWidth = 1;
+        ctx.font = '68px serif'
+        const text = inputText.value; //input에 쓴 text;
+        ctx.fillText(text,e.offsetX, e.offsetY)
+        ctx.restore();//  ctx.restore()는 이전에 저장된 상태로 돌아감! => save와 restore사이에는 어떤 수정을 하던 저장XX
+    }
+  
+}
 
+//현재 canvas에 있는 이미지를 저장하는 함수
+function onSaveClick(){
+   const url = canvas.toDataURL();//그림 데이터를 url로 변환해주는 메소드,이미지를 url로 인코딩하면 긴 문자열이 나온다.
+   const a = document.createElement('a');//
+   a.href = url;
+   a.download = 'myDrawing'; //downloa는 브라우저에게 href에 있는 콘텐츠를 다운로드 하라고 알리는 역할이다.
+   a.click();
 
+}
 canvas.addEventListener('mousemove', onMove)
 canvas.addEventListener('mousedown', startPainting)
 canvas.addEventListener('mouseup', cancelPainting)
 canvas.addEventListener('mouseleave', cancelPainting) 
 canvas.addEventListener('click',onCanvasClick)
+canvas.addEventListener('dblclick', onDoublClick);
 
 lineWidth.addEventListener('change',onLineWidthChange);
 color.addEventListener('change',onColorChange);
@@ -127,3 +153,4 @@ modeBtn.addEventListener('click',onModeClick);
 destroyBtn.addEventListener('click',onDestroyClick);
 eraserBtn.addEventListener('click',onEraserClick);
 file.addEventListener('change',onFileChange);
+saveBtn.addEventListener('click',onSaveClick);
