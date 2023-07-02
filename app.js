@@ -6,8 +6,8 @@ const color = document.querySelector('#color');
 const modeBtn = document.querySelector('#mode-btn');
 const destroyBtn = document.querySelector('#destroy-btn');
 const eraserBtn = document.querySelector('#eraser-btn');
-const CANVAS_WIDTH = 800;
-const CANVAS_HEIGHT = 800;
+const CANVAS_WIDTH = 500;
+const CANVAS_HEIGHT = 500;
 const file = document.querySelector('#file');
 const inputText = document.querySelector('#text');
 const saveBtn = document.querySelector('#save-btn');
@@ -119,7 +119,7 @@ function onFileChange(e){
 //더블클릭시 text나타남
 function onDoublClick(e){
     
-    if(text !== ''){ //text가 비어있지 않는다면 실행
+    if(inputText !== ''){ //text가 비어있지 않는다면 실행
         
         ctx.save(); //ctx.save()는 현재 상태, 색상, 스타일등 모든 것을 저장한다.
         ctx.lineWidth = 1;
