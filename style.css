@@ -1,40 +1,92 @@
-canvas {
-    width: 800px;
-    height: 800px;
-    border: 5px solid black;
-}
+
 
 body {
+  
+    background-color: rgb(249, 231, 231);
+    font-family: sans-serif;
+    box-sizing: border-box; 
+    
+   
+}
+.container{
+
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 40px;
+    margin-top: 40px;
 }
-main{
+canvas {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+input#color{
+    width: 50px;
+    height: 50px;
+}
+.color-options{
     display: flex;
     flex-direction: column;
     align-items: center;
-  
-
-}
-section{
-    display: flex;
-    margin-top: 30px;
+    gap: 10px; 
+    
 }
 .color-option{
-    width: 100px;
-    height: 100px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    margin-right: 10px;
+    border: 5px solid white;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     cursor: pointer;
-}canvas {
-    width: 800px;
-    height: 800px;
-    border: 5px solid black;
+    transition: transform ease-in-out .1s;
+}
+.color-option:hover{
+    transform: scale(1.2);
 }
 
-body {
+button,
+label,
+input#text{
+    all:unset;   /* 기존의 css속성을 모두 없앰 */
+    width:150px;
+    padding: 10px;
+    background-color: rgb(255, 255, 255);
+    opacity: 1;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: opacity linear .1s;
+    font-size: 20px;
+
+}
+ 
+
+button:hover{
+    opacity: 0.8;
+}
+.btns{
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    gap: 20px;
+}
+
+
+input#file{
+   display: none;
+
+}
+
+input#line-width{
+
+    border-radius: 8px;
+    outline: none;
+    accent-color: #ed9dda;
+  
 }
